@@ -1,0 +1,16 @@
+[37;1m2023-09-23 18:51:04.124 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port9665: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2023-09-23 18:51:04.124 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port9671: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/turtlesim:
+  ros__parameters:
+    background_b: 255
+    background_g: 124
+    background_r: 69
+    qos_overrides:
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    use_sim_time: false
+
