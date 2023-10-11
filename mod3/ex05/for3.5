@@ -1,0 +1,10 @@
+1
+cd ros2_ws/src
+colcon build --packages-select move_to_goal
+
+2
+ros2 run turtlesim turtlesim_node
+
+3
+source install/setup.bash
+ros2 run move_to_goal move_to_goal_Node 5 5 1

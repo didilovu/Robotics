@@ -1,0 +1,12 @@
+1.
+rosdep install -i --from-path src --rosdistro humble -y
+colcon build --packages-select summfullname
+colcon build --packages-select service_full_name
+
+2.
+source install/setup.bash
+ros2 run service_full_name service
+
+3.
+source install/setup.bash
+ros2 run service_full_name client a bo ba

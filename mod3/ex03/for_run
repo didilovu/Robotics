@@ -1,0 +1,6 @@
+1.
+ros2 run turtlesim turtlesim_node
+
+2.
+ros2 bag play -s mcap turtle_cmd_vel/turtle_cmd_vel.mcap
+ros2 bag play -s mcap turtle_cmd_vel/turtle_cmd_vel.mcap -r2
