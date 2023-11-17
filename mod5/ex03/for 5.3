@@ -1,0 +1,6 @@
+1.
+colcon build --packages-select my_robot
+. ./install/setup.sh
+ros2 launch robot_bringup diff_drive.launch.py
+
+2. В "..." ищем телеоп, внизу пишем /model/vehicle/cmd_vel
