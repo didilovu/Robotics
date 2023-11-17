@@ -1,0 +1,5 @@
+1.
+cd ros2_ws/src/sam_bot_description
+colcon build
+. install/setup.bash
+ros2 launch sam_bot_description display.launch.py
