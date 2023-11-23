@@ -46,7 +46,7 @@ def generate_launch_description():
     create = Node(
         package='ros_gz_sim',
         executable='create',
-        arguments=['-name', 'kak', '-x 0.0', '-y 0.0', '-z 0.7',
+        arguments=['-name', 'kak', '-x 0.0', '-y 0.0', '-z 0.0',
                    '-topic', 'robot_description'],
         output='screen'          
     )
@@ -97,5 +97,5 @@ def generate_launch_description():
         bridge,
         robot_state_publisher,
         rviz,
-        circle_mover
+        #circle_mover
     ])

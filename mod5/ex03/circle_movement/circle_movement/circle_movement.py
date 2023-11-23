@@ -14,8 +14,8 @@ class CirclePublisher(Node):
     def timer_callback(self):
 
         twist = Twist()
-        twist.angular.z = 1.56  
-        twist.linear.x = 3.0       
+        twist.linear.x = 0.5
+        twist.angular.z = 2.0         
         self.publisher.publish(twist)
         
         

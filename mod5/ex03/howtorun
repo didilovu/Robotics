@@ -1,0 +1,4 @@
+colcon build --packages-select circle_movement
+. ./install/setup.sh 
+ros2 launch circle_movement circle_movement.launch.py
+

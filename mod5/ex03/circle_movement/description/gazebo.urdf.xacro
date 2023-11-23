@@ -27,11 +27,11 @@
         <plugin
             filename="gz-sim-diff-drive-system"
             name="gz::sim::systems::DiffDrive">
-            <left_joint>wheel_2_joint</left_joint>
-            <right_joint>wheel_1_joint</right_joint>
+            <left_joint>wheel_1_joint</left_joint>
+            <right_joint>wheel_2_joint</right_joint>
             <child_frame_id>kak/base_link</child_frame_id>
-            <wheel_separation>2.0</wheel_separation>
-            <wheel_radius>0.35</wheel_radius>
+            <wheel_separation>0.35</wheel_separation>
+            <wheel_radius>0.1</wheel_radius>
             <odom_publish_frequency>10</odom_publish_frequency>
         </plugin>
     </gazebo>

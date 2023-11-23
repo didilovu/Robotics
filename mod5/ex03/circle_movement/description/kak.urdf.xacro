@@ -87,7 +87,7 @@
       </geometry>
     </collision>
     
-    <xacro:cylinder_inertia m="0.7" r="1.0" h="0.07"/>
+    <xacro:cylinder_inertia m="0.5" r="1.0" h="0.07"/>
   </link>
   
   <joint name="stol_joint" type="fixed">
@@ -111,7 +111,7 @@
       </geometry>
     </collision>
       
-    <xacro:box_inertia m="0.5" w="0.52" d="0.56" h="0.685"/>	
+    <xacro:box_inertia m="5" w="0.52" d="0.56" h="0.685"/>	
   </link>
   
   <joint name="vaza_joint" type="fixed">
@@ -134,7 +134,7 @@
       </geometry>
     </collision>
     
-    <xacro:box_inertia m="0.5" w="0.42" d="0.46" h="0.585"/>	
+    <xacro:box_inertia m="5" w="0.42" d="0.46" h="0.585"/>	
   </link>
   
   <joint name="zemlya_joint" type="fixed">
@@ -245,8 +245,8 @@
   <xacro:igli prefix="5" z_high = "0.7225" a_long = "0.05" b_weight = "0.45" />
   <xacro:igli prefix="6" z_high = "0.7225" a_long = "0.45" b_weight = "0.05" />	
 	
-
-    <link name="wheel_1">
+  <xacro:macro name = "wheel" params = "prefix x">
+    <link name="wheel_${prefix}">
       <visual>
        <origin xyz="0 0 0" rpy="1.56 0 0"/>
         <geometry>
@@ -265,42 +265,21 @@
       <xacro:cylinder_inertia m="0.7" r="0.35" h="0.15"/>
     </link>
     
-    <joint name="wheel_1_joint" type="continuous">
-      <parent link="base_link"/>
-      <child link="wheel_1"/>
-      <origin xyz="-0.5 0.9 -0.45" rpy="0 -1.56 0"/>
+    <joint name="wheel_${prefix}_joint" type="continuous">
+      <parent link="stol"/>
+      <child link="wheel_${prefix}"/>
+      <origin xyz="${x} -0.5 -0.45" rpy="0 0 1.56"/>
       <axis xyz="0 1 0"/>
     </joint>
     
-    <link name="wheel_2">
-      <visual>
-       <origin xyz="0 0 0" rpy="1.56 0 0"/>
-        <geometry>
-          <cylinder radius="0.35" length="0.15"/>
-	</geometry>
-        <material name="Blue"/>
-      </visual>
-      
-      <collision>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
-        <geometry>
-          <cylinder radius="0.35" length="0.15"/>
-        </geometry>
-      </collision>
-      
-      <xacro:cylinder_inertia m="0.7" r="0.35" h="0.15"/>
-    </link>
-    
-    <joint name="wheel_2_joint" type="continuous">
-      <parent link="base_link"/>
-      <child link="wheel_2"/>
-      <origin xyz="-0.5 -0.9 -0.45" rpy="0 1.56 0"/>
-      <axis xyz="0 1 0"/>
-    </joint>
-
+  </xacro:macro>
+	
+	
+  <xacro:wheel prefix="1" x = "0.9"/>
+  <xacro:wheel prefix="2" x = "-0.9"/>
 	
 
-  <link name="wheel_center">
+  <link name="weel_center">
     <visual>
       <geometry>
         <sphere radius="0.2"/>
@@ -314,17 +293,17 @@
       </geometry>
     </collision>
     
-    <xacro:sphere_inertia m="1.0" r="0.2"/>
+    <xacro:sphere_inertia m="0.3" r="0.2"/>
   </link>
   
-  <joint name="wheel_center_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="wheel_center"/>
-    <origin xyz="0.8 0 -0.6" rpy="0 1.56 0"/>
-    <!--axis xyz="0 1 0"/-->
+  <joint name="weel_center_joint" type="continuous">
+    <parent link="stol"/>
+    <child link="weel_center"/>
+    <origin xyz="0 0.6 -0.6" rpy="0 0 0"/>
   </joint>
   
-   <gazebo reference="wheel_center">
+   <gazebo reference="weel_center">
+      <material>Orange</material>
       <mu1 value="0.001"/>
       <mu2 value="0.001"/>
   </gazebo>
