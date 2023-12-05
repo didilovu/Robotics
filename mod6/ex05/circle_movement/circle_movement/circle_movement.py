@@ -1,0 +1,37 @@
+import rclpy, sys
+from std_msgs.msg import String
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+import math
+
+
+class CirclePublisher(Node):
+
+    def __init__(self):
+        super().__init__('publisher')
+        self.publisher = self.create_publisher(Twist, '/kak/cmd_vel', 10)
+        timer_period = 0.5  
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+
+    def timer_callback(self):
+        sec, _ = self.get_clock().now().seconds_nanoseconds()
+        twist = Twist()
+        twist.linear.x = math.cos(sec+5)
+        twist.linear.y = math.cos(sec) 
+        twist.angular.z = 0.5     
+        self.publisher.publish(twist)
+        
+        
+def main(args=None):
+    rclpy.init(args=args)
+
+    circling = CirclePublisher()
+
+    rclpy.spin(circling)
+
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+    

@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<robot name="kak" xmlns:xacro="http://ros.org/wiki/xacro">
+
+ <xacro:include filename="gazebo.urdf.xacro" /> 
+ <xacro:include filename="lidar.urdf.xacro" />
+ <!--<xacro:include filename="depth.urdf.xacro" />-->
+ 
+ 
+  <material name="Gray">
+    <color rgba="0.2 0.2 0.2 1.0"/> 
+  </material>
+  
+  <material name="Pink">
+    <color rgba="0.84 0.4 0.3 0.9"/> 
+  </material>
+  
+  
+  <material name="Brown">
+    <color rgba="0.5 0.2 0.1 1.0"/> 
+  </material>
+  
+  <material name="Green">
+    <color rgba="0.112 0.21 0.021 1.0"/> 
+  </material>
+  
+  <material name="White">
+    <color rgba="1 1 1 1.0"/> 
+  </material>
+  
+  <material name="Blue">
+    <color rgba="0 0 0.2 1.0"/> 
+  </material>
+
+
+   <!-- Define intertial property macros  -->
+  <xacro:macro name="box_inertia" params="m w h d">
+    <inertial>
+      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
+      <mass value="${m}"/>
+      <inertia ixx="${(m/12) * (h*h + d*d)}" ixy="0.0" ixz="0.0" iyy="${(m/12) * (w*w + d*d)}" iyz="0.0" izz="${(m/12) * (w*w + h*h)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="cylinder_inertia" params="m r h">
+    <inertial>
+      <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+      <mass value="${m}"/>
+      <inertia ixx="${(m/12) * (3*r*r + h*h)}" ixy = "0" ixz = "0" iyy="${(m/12) * (3*r*r + h*h)}" iyz = "0" izz="${(m/2) * (r*r)}"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="sphere_inertia" params="m r">
+    <inertial>
+      <mass value="${m}"/>
+      <inertia ixx="${(2/5) * m * (r*r)}" ixy="0.0" ixz="0.0" iyy="${(2/5) * m * (r*r)}" iyz="0.0" izz="${(2/5) * m * (r*r)}"/>
+    </inertial>
+  </xacro:macro>
+  
+  
+  <!--Base link-->
+  <link name="base_link">
+   <!-- <origin xyz="0 5 0" rpy="0 0 0"/> -->
+  </link>
+  
+  <frame name="lidar_frame" attached_to='chassis'>
+    <pose>0.8 0 0.5 0 0 0</pose>
+  </frame>
+  
+  
+  <!-- Robot Footprint -->
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0.0 0.0 -0.3" rpy="0 0 0"/>
+  </joint>
+  
+  
+  
+   <link name="stol">
+    <visual>
+      <origin xyz="0 0 -0.38" rpy="0 0 0"/>
+      <geometry>
+	  <cylinder radius="1.0" length="0.07"/>
+      </geometry>
+      <material name="Gray"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder radius="1.0" length="0.07"/>
+      </geometry>
+    </collision>
+    
+    <xacro:cylinder_inertia m="0.7" r="1.0" h="0.07"/>
+  </link>
+  
+  <joint name="stol_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="stol"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+  </joint>
+  
+  <!-- * * * Link Definitions * * * -->
+  <link name="vaza">
+    <visual>
+      <geometry>
+	<box size="0.52 0.56 0.685"/>
+      </geometry>
+      <material name="Pink"/>
+    </visual>
+      
+    <collision>
+      <geometry>
+        <box size="0.52 0.56 0.685"/>
+      </geometry>
+    </collision>
+      
+    <xacro:box_inertia m="0.5" w="0.52" d="0.56" h="0.685"/>	
+  </link>
+  
+  <joint name="vaza_joint" type="fixed">
+    <parent link="stol"/>
+    <child link="vaza"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+	
+  <link name="zemlya">
+    <visual>
+      <geometry>
+	<box size="0.42 0.46 0.585"/>
+      </geometry>
+      <material name="Brown"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <box size="0.42 0.46 0.585"/>
+      </geometry>
+    </collision>
+    
+    <xacro:box_inertia m="0.5" w="0.42" d="0.46" h="0.585"/>	
+  </link>
+  
+  <joint name="zemlya_joint" type="fixed">
+    <parent link="stol"/>
+    <child link="zemlya"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+  <link name="kaktys">
+    <visual>
+      <geometry>
+	<cylinder radius="0.15" length="1.7"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder radius="0.15" length="1.7"/>
+      </geometry>
+    </collision>
+    
+    <xacro:cylinder_inertia m="1" r="0.15" h="1.7"/>
+  </link>
+  
+  <joint name="kaktys_joint" type="fixed">
+    <parent link="stol"/>
+    <child link="kaktys"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+  </joint>
+
+  <link name="vetka_1">
+    <visual>
+      <geometry>
+	<cylinder radius="0.1" length="1.0"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="1.0"/>
+      </geometry>
+    </collision>
+    
+    <xacro:cylinder_inertia m="0.1" r="0.1" h="1.0"/>
+  </link>
+  
+  <joint name="vetka_1_joint" type="fixed">
+    <parent link="kaktys"/>
+    <child link="vetka_1"/>
+    <origin xyz="0 0 0.5" rpy="90 0 0"/>
+  </joint>
+  
+  <link name="vetka_2">
+    <visual>
+      <geometry>
+        <cylinder radius="0.08" length="0.6"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <cylinder radius="0.08" length="0.6"/>
+      </geometry>
+    </collision>
+    
+    <xacro:cylinder_inertia m="0.1" r="0.08" h="0.6"/>
+  </link>
+	
+  <joint name="vetka_2_joint" type="fixed">
+    <parent link="kaktys"/>
+    <child link="vetka_2"/>
+    <origin xyz="0 -0.4 0.6" rpy="0 0 0"/>
+  </joint>
+
+  <xacro:macro name = "igli" params = "prefix z_high a_long b_weight">
+    <link name="igla_${prefix}">
+      <visual>
+        <geometry>
+          <box size="${a_long} ${b_weight} 0.05"/>
+	</geometry>
+	<material name="White"/>
+      </visual>
+      
+      <collision>
+        <geometry>
+          <box size="${a_long} ${b_weight} 0.05"/>
+        </geometry>
+      </collision>
+      
+      <xacro:box_inertia m="0.01" w="${a_long}" d="${b_weight}" h="0.05"/>	
+    </link>
+    
+    <joint name="igla_${prefix}_joint" type="fixed">
+      <parent link="kaktys"/>
+      <child link="igla_${prefix}"/>
+      <origin xyz="0 0 ${z_high}" rpy="0 0 0"/>
+    </joint>
+    
+  </xacro:macro>
+	
+  <xacro:igli prefix="1" z_high = "0.1225" a_long = "0.05" b_weight = "0.45" />
+  <xacro:igli prefix="2" z_high = "0.1225" a_long = "0.45" b_weight = "0.05" />
+  <xacro:igli prefix="3" z_high = "0.3225" a_long = "0.45" b_weight = "0.05" />
+  <xacro:igli prefix="4" z_high = "0.5225" a_long = "0.45" b_weight = "0.05" />
+  <xacro:igli prefix="5" z_high = "0.7225" a_long = "0.05" b_weight = "0.45" />
+  <xacro:igli prefix="6" z_high = "0.7225" a_long = "0.45" b_weight = "0.05" />	
+	
+
+    <link name="wheel_1">
+      <visual>
+       <origin xyz="0 0 0" rpy="1.56 0 0"/>
+        <geometry>
+          <cylinder radius="0.35" length="0.15"/>
+	</geometry>
+        <material name="Blue"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="0.35" length="0.15"/>
+        </geometry>
+      </collision>
+      
+      <xacro:cylinder_inertia m="0.7" r="0.35" h="0.15"/>
+    </link>
+    
+    <joint name="wheel_1_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="wheel_1"/>
+      <origin xyz="-0.5 0.9 -0.45" rpy="0 -1.56 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+    
+    <link name="wheel_2">
+      <visual>
+       <origin xyz="0 0 0" rpy="1.56 0 0"/>
+        <geometry>
+          <cylinder radius="0.35" length="0.15"/>
+	</geometry>
+        <material name="Blue"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="0.35" length="0.15"/>
+        </geometry>
+      </collision>
+      
+      <xacro:cylinder_inertia m="0.7" r="0.35" h="0.15"/>
+    </link>
+    
+    <joint name="wheel_2_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="wheel_2"/>
+      <origin xyz="-0.5 -0.9 -0.45" rpy="0 1.56 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+
+	
+
+  <link name="wheel_center">
+    <visual>
+      <geometry>
+        <sphere radius="0.2"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <sphere radius="0.2"/>
+      </geometry>
+    </collision>
+    
+    <xacro:sphere_inertia m="1.0" r="0.2"/>
+  </link>
+  
+  <joint name="wheel_center_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_center"/>
+    <origin xyz="0.8 0 -0.6" rpy="0 1.56 0"/>
+    <!--axis xyz="0 1 0"/-->
+  </joint>
+  
+   <gazebo reference="wheel_center">
+      <mu1 value="0.001"/>
+      <mu2 value="0.001"/>
+  </gazebo>
+	
+</robot>	
